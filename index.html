@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta name='viewport' content='width=device-width initial-scale=1.0' />
+    <title>A translator chatbot...</title>
+    <link rel='stylesheet' href='./index.css' />
+
+    <!-- Roboto font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <header>
+        <div class='container header-container'>
+            <img src='./images/header-logo.png' class='icon-img' />
+            <div class='app-detail'>
+                <h1 class='app-title'>Treelingo</h1>
+                <h2 class='app-tagline'>One up duolingo!</h2>
+            </div>
+        </div>
+    </header>
+
+    <main class='container chat-outer-container'>
+        <section class='chat-inner-container' id='chat-inner-container'>
+
+            <div class='chat-box ai-chat'>
+                Comment allez-vous?
+            </div>
+
+            <div class='chat-box user-chat'>
+                How are you?
+            </div>
+
+            <div class='chat-box ai-chat'>
+                Select the language you want me to translate into, type
+                your text and hit send!
+            </div>
+
+        </section>
+
+        <form class='input-container'>
+            <textarea></textarea>
+            <button class='send-btn' type='button'>
+                <i class="fa-solid fa-paper-plane green-paper-plane"></i>
+            </button>
+        </form>
+
+        <form class='flag-container'>
+            <button class='flag-btn default-lang' data-language='japanese' type='button'>
+                <img src='./images/japan.png' />
+            </button>
+
+            <button class='flag-btn' data-language='french' type='button'>
+                <img src='./images/france.png' />
+            </button>
+
+            <button class='flag-btn' data-language='spanish' type='button'>
+                <img src='./images/spain.png' />
+            </button>
+        </form>
+    </main>
+
+    <script src='index.js' type='module'></script>
+</body>
+
+</html>

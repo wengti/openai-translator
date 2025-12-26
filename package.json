@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "vite": "^7.3.0"
+  },
+  "dependencies": {
+    "openai": "^6.15.0"
+  },
+  "type": "module"
+}
