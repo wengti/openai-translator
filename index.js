@@ -1,13 +1,31 @@
-import {conversation, openai} from './ai.js'
-
 let selectedLanguage = 'japanese'
 const flagBtnArr = document.querySelectorAll('.flag-btn')
 const sendBtn = document.querySelector('.input-container > button')
 const textAreaEl = document.querySelector('textarea')
 const chatInnerContainer = document.getElementById('chat-inner-container')
 
-
 let isNewConversation = true
+
+
+// Create a new conversation
+const conversationOption = {
+    method: 'POST',
+    body: JSON.stringify({
+        action: 'createConversation'
+    }),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}
+const workerUrl = 'https://openai-translator-openai-worker.cloudflare-demo-wengti.workers.dev/'
+const response = await fetch(workerUrl, conversationOption)
+const data = await response.json()
+
+if (!response.ok) {
+    throw new Error(`Error: ${data.errorMsg}`)
+}
+const { conversationId } = data
+
 
 
 flagBtnArr.forEach(btn => {
@@ -30,14 +48,15 @@ function handleLangChange(event) {
 }
 
 async function handleSendMsg() {
+    sendBtn.disabled = true
     const userText = textAreaEl.value
     textAreaEl.value = ''
 
-    if(isNewConversation){
+    if (isNewConversation) {
         chatInnerContainer.innerHTML = ''
         isNewConversation = false
     }
-    
+
     const htmlStr = `
         <div class='chat-box ai-chat last-ai-chat'>
             Thinking...
@@ -48,13 +67,27 @@ async function handleSendMsg() {
         </div>
     `
     chatInnerContainer.innerHTML = htmlStr + chatInnerContainer.innerHTML
+    chatInnerContainer.scrollTop += chatInnerContainer.scrollHeight
 
-    const response = await openai.responses.create({
-        model: 'gpt-4.1',
-        input: `language: ${selectedLanguage} userQuery: ${userText}`,
-        conversation: conversation.id
-    })
+    const responseOption = {
+        method: 'POST',
+        body: JSON.stringify({
+            action: 'createResponse',
+            selectedLanguage: selectedLanguage,
+            userText: userText,
+            conversationId: conversationId
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
 
-    const answer = response.output_text
+    const response = await fetch(workerUrl, responseOption)
+    const data = await response.json()
+    if (!response.ok) {
+        throw new Error(`Error: ${data.errorMsg}`)
+    }
+    const { responseByAi: answer } = data
     document.querySelector('.last-ai-chat').textContent = answer
+    sendBtn.disabled = false
 }
